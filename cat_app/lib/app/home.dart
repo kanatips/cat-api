@@ -1,7 +1,10 @@
+
+import 'package:cat_app/app/login.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Edit.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,11 +13,9 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
- 
-
 class _HomeState extends State<Home> {
   List<String> image =[];
-  String? userName;
+  String userName="";
    @override
   void initState() {
     super.initState();
@@ -47,25 +48,66 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> logout() async {
+  await FirebaseAuth.instance.signOut();
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Login()));
   
+}
+
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("welcome $userName "),
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>EditUser())).then((_) => getUserName());
+                },
+                child: Icon(Icons.person)),
+              Text("welcome $userName "),
+              InkWell(child: Icon(Icons.logout)
+              ,onTap: () {
+                logout();
+                setState(() { 
+                });
+              },)
+            ],
+          ),
+
+
         ),
-        body: ListView.builder(
-          itemCount: image.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding:EdgeInsets.all(5.0)
-              ,child: Image.network("${image[index]}"
-              ,height: 200,
-              fit: BoxFit.cover,), 
-              );
-          },),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: image.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding:EdgeInsets.all(5.0)
+                    ,child: Image.network("${image[index]}"
+                    ,height: 200,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if(loadingProgress ==null) return child;
+                       return Center(child: CircularProgressIndicator());
+                        
+                    },
+                    ), 
+                    );
+                },
+              
+                ),
+            ),
+              // ElevatedButton(onPressed: (){getcat();}, child: Text("add"))
+          ],
+        ),
+      
       ),
+
     );
   }
 }

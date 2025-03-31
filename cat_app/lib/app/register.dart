@@ -14,25 +14,6 @@ class _RegisState extends State<Regis> {
   TextEditingController repasscon = TextEditingController();
   TextEditingController username = TextEditingController();
 
-//   Future<bool> registerWithEmail(
-//     {required email, required password, required repassword,required username}) {
-//     final FirebaseAuth _auth = FirebaseAuth.instance;
-//     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-//   return _auth
-//       .createUserWithEmailAndPassword(email: email, password: password)
-//       .then((data) {
-//            _firestore.collection('users').doc(data.user!.uid).set({
-//           'uid': data.user!.uid,
-//           'email': email,
-//           'username' :username,
-        
-//         });
-//     return true;
-//   }).catchError((e) {
-//     return false;
-//   });
-// }
 Future<bool> registerWithEmail({
   required String email,
   required String password,
@@ -53,11 +34,8 @@ Future<bool> registerWithEmail({
       'email': email,
       'username': username,
     });
-
-    // print("Registration Successful!");
     return true;
   } catch (e) {
-    // print("Error: $e");
     return false;
   }
 }
@@ -65,30 +43,37 @@ Future<bool> registerWithEmail({
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(title: Text("register"),),
-      body: Column(
-        children: [
-          TextFormField(
-            decoration: InputDecoration(helperText: "Email"),
-            controller: usercon,
-          ),
-          TextFormField(
-            decoration: InputDecoration(helperText: "User Name"),
-            controller: username,
-          ),
-          TextFormField(
-            decoration: InputDecoration(helperText: "password"),
-            controller: passcon,
-          ),
-           TextFormField(
-            decoration: InputDecoration(helperText: "repassword"),
-            controller: repasscon,
-          ),
-          ElevatedButton
-          (onPressed: (){
-            registerWithEmail(email: usercon.text, password: passcon.text, repassword: repasscon.text,username: username.text);
-          }, 
-          child: Text("submit"))
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 15,right: 15),
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: InputDecoration(helperText: "Email"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+              controller: usercon,
+            ),
+            TextFormField(
+              decoration: InputDecoration(helperText: "User Name"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+              controller: username,
+            ),
+            TextFormField(
+              decoration: InputDecoration(helperText: "password"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+              controller: passcon,
+            ),
+             TextFormField(
+              decoration: InputDecoration(helperText: "repassword"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+              controller: repasscon,
+            ),
+            ElevatedButton
+            (onPressed: (){
+              registerWithEmail(email: usercon.text, password: passcon.text, repassword: repasscon.text,username: username.text);
+            }, 
+            child: Text("submit"))
+          ],
+        ),
       ),
 
     );

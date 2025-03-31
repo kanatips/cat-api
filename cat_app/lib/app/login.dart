@@ -23,7 +23,6 @@ Future<bool> signInWithEmail(BuildContext context,
     print(e);
     switch (e.code) {
       case "ERROR_WRONG_PASSWORD":
-        
         // print("Wrong Password! Try again.");
         break;
       case "ERROR_INVALID_EMAIL":
@@ -49,7 +48,6 @@ Future<bool> signInWithEmail(BuildContext context,
     return false;
   });
 }
-
 class _LoginState extends State<Login> {
   TextEditingController usercon = TextEditingController();
   TextEditingController passcon = TextEditingController();
@@ -57,27 +55,33 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Login"),),
-      body: Column(
-        children: [
-          TextFormField(
-            controller: usercon,
-            decoration: InputDecoration(counterText: "email"),
-          ),
-           TextFormField(
-            controller: passcon,
-            decoration: InputDecoration(counterText: "password"),
-          ),
-          ElevatedButton(onPressed: (){
-            signInWithEmail(context, email: usercon.text, password: passcon.text);
-          }, child: Text("Login")),
-          ElevatedButton(
-          onPressed: (){
-            passcon.clear();
-            Navigator.push(context
-            , MaterialPageRoute(builder: (_)=>Regis()));
-          }, 
-          child: Text("Register")),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 15,right: 15),
+        child: Column(
+          children: [
+            TextFormField(
+              controller: usercon,
+              decoration: InputDecoration(counterText: "email"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+            ),
+            SizedBox(height: 20,),
+             TextFormField(
+              controller: passcon,
+              decoration: InputDecoration(counterText: "password"
+              ,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)) ),
+            ),
+            ElevatedButton(onPressed: (){
+              signInWithEmail(context, email: usercon.text, password: passcon.text);
+            }, child: Text("Login")),
+            ElevatedButton(
+            onPressed: (){
+              passcon.clear();
+              Navigator.push(context
+              , MaterialPageRoute(builder: (_)=>Regis()));
+            }, 
+            child: Text("Register")),
+          ],
+        ),
       ),
     );
   }
